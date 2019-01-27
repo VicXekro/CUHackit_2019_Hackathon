@@ -4,9 +4,10 @@ public class StringToBraille{
 	Gpio gpioPin31;
 	Gpio gpioPin27;
 	Gpio gpioPin25;
+	GpioProcessor gpioProcessor;
 	
 	public StringToBraille(){
-		GpioProcessor gpioProcessor = new GpioProcessor();
+		gpioProcessor = new GpioProcessor();
 		gpioPin33 = gpioProcessor.getPin33();
 		gpioPin31 = gpioProcessor.getPin31();
 		gpioPin27 = gpioProcessor.getPin27();
@@ -17,6 +18,10 @@ public class StringToBraille{
 		gpioPin25.out();
 		gpioPin31.out();
 		gpioPin33.out();
+		}
+		
+	public GpioProcessor getGpioProcessor(){
+		return gpioProcessor;
 		}
 	
 	public void punchASequence(){
@@ -106,15 +111,57 @@ public class StringToBraille{
 			gpioPin33.high();
 		
 		}
-	
-	public static void main(String[]args){
+		
+	public void resetSequence(){
+		
+			gpioPin25.high();
+			gpioPin27.low();
+			gpioPin31.low();
+			gpioPin33.low();
+			
+			gpioPin25.low();
+		
+		}
+		
+	public static void execSequenceA(){
 		StringToBraille s = new StringToBraille();
 		
-		while(true){
-			
-			for(int i=0; i<40;i++){
+		for(int i=0; i<200;i++){
 				s.punchASequence();
+				try{
+				
+				Thread.sleep(10);
+				
+				}catch(InterruptedException e){
+					e.printStackTrace();
+					}
 			}
+			
+		s.getGpioProcessor().closePins();	
+		}
+		
+	public static void execSequenceB(){
+		StringToBraille s = new StringToBraille();
+		for(int i=0; i<200; i++){		
+				s.punchBSequence();
+				try{
+				Thread.sleep(10);
+				
+				}catch(InterruptedException e){
+					e.printStackTrace();
+					}
+			}
+		s.getGpioProcessor().closePins();
+		}	
+		
+	
+	public static void main(String[]args){
+		
+		
+		while(true){
+			execSequenceA();
+			
+			//s.resetSequence();
 			try{
 				
 				Thread.sleep(1000);
@@ -123,10 +170,8 @@ public class StringToBraille{
 					e.printStackTrace();
 					}
 					
-			for(int i=0; i<70; i++){		
-			s.punchBSequence();
-			}
-			
+			execSequenceB();
+			//s.resetSequence();
 			try{
 				
 				Thread.sleep(1000);
