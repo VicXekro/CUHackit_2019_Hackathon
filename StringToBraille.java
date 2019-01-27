@@ -163,59 +163,155 @@ public class StringToBraille{
 		
 		}
 		
-	public static void execSequenceA(){
+	public static void execSequenceA(int n){
 		StringToBraille s = new StringToBraille();
 		
-		for(int i=0; i<50;i++){
-				s.punchASequence();
-				try{
-				Thread.sleep(10);
-				}catch(InterruptedException e){
-				e.printStackTrace();
-				}
+		int i = 0;
+		while (i<n){
+			s.punchASequence();
+			s.sleep(10);
+			i++;
 			}
 			
 		s.getGpioProcessor().closePins();	
 		}
 		
-	public static void execSequenceB(){
+	public static void execSequenceB(int n){
 		StringToBraille s = new StringToBraille();
-		for(int i=0; i<50; i++){		
-				s.punchBSequence();
-				try{
-				Thread.sleep(10);
-				
-				}catch(InterruptedException e){
-					e.printStackTrace();
-					}
+		int i = 0;
+		while (i<n){
+			s.punchBSequence();
+			s.sleep(10);
+			i++;
 			}
 		s.getGpioProcessor().closePins();
 		}	
 		
+	public static void transcriptCharacter(char c){
+		
+		int [][] brailleCode = BrailleCharacterConverter.braille(c);
+		
+		if(brailleCode[0][0]==1){
+			execSequenceB(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			execSequenceA(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			}
+		if(brailleCode[0][1]==1){
+			execSequenceA(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			execSequenceB(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}                         
+			}
+		if(brailleCode[1][0]==1){
+			execSequenceB(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			execSequenceA(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			}
+		if(brailleCode[1][1]==1){
+			execSequenceA(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			execSequenceB(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			}
+		if(brailleCode[2][0]==1){
+			execSequenceB(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			execSequenceA(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			}
+		if(brailleCode[2][1]==1){
+			execSequenceA(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			execSequenceB(50);
+			try{
+				Thread.sleep(1000);
+				
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			}
+		
+		}	
+		
 	
 	public static void main(String[]args){
+		transcriptCharacter('f');
 		
-		
-		while(true){
+		/*while(true){
 			System.out.println("Turning counter-clockwise\n");
 
-			execSequenceB();
+			execSequenceB(50);
 			
 			//s.resetSequence();
 			try{
-				
 				Thread.sleep(1000);
 				
-				}catch(InterruptedException e){
-					e.printStackTrace();
-					}
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
 					
 			System.out.println("Turning clockwise\n");
 
-			execSequenceA();
+			execSequenceA(50);
 			//s.resetSequence();
 			try{
-				
 				Thread.sleep(1000);
 				
 				}catch(InterruptedException e){
@@ -224,7 +320,7 @@ public class StringToBraille{
 		}
 		
 		
-		//gpioProcessor.closePins();
+		//gpioProcessor.closePins();*/
 		
 		}
 	}
