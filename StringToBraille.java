@@ -23,6 +23,14 @@ public class StringToBraille{
 	public GpioProcessor getGpioProcessor(){
 		return gpioProcessor;
 		}
+		
+	public void sleep(int millis) {
+		try{
+			Thread.sleep(millis);
+		}catch(InterruptedException e){
+			e.printStackTrace();
+		}
+	}
 	
 	public void punchASequence(){
 		
@@ -30,41 +38,57 @@ public class StringToBraille{
 			gpioPin27.low();
 			gpioPin31.low();
 			gpioPin33.high();
+			
+			sleep(10);
 
 			gpioPin25.low();
 			gpioPin27.low();
 			gpioPin31.high();
 			gpioPin33.high();
 			
+			sleep(10);
+			
 			gpioPin25.low();
 			gpioPin27.low();
 			gpioPin31.high();
 			gpioPin33.low();
 			
+			sleep(10);
+			
 			gpioPin25.low();
 			gpioPin27.high();
 			gpioPin31.high();
 			gpioPin33.low();
 			
+			sleep(10);
+			
 			gpioPin25.low();
 			gpioPin27.high();
 			gpioPin31.low();
 			gpioPin33.low();
+			
+			sleep(10);
 		
 			gpioPin25.high();
 			gpioPin27.high();
 			gpioPin31.low();
 			gpioPin33.low();
 			
+			sleep(10);
+			
 			gpioPin25.high();
 			gpioPin27.low();
 			gpioPin31.low();
 			gpioPin33.low();
+			
+			sleep(10);
 		
 			gpioPin25.high();
 			gpioPin27.low();
 			gpioPin31.low();
 			gpioPin33.high();
+			
+			sleep(10);
 		
 		}
 		
@@ -74,41 +98,57 @@ public class StringToBraille{
 			gpioPin27.low();
 			gpioPin31.low();
 			gpioPin33.low();
+			
+			sleep(10);
 
 			gpioPin25.high();
 			gpioPin27.high();
 			gpioPin31.low();
 			gpioPin33.low();
 			
+			sleep(10);
+			
 			gpioPin25.low();
 			gpioPin27.high();
 			gpioPin31.low();
 			gpioPin33.low();
 			
+			sleep(10);
+			
 			gpioPin25.low();
 			gpioPin27.high();
 			gpioPin31.high();
 			gpioPin33.low();
 			
+			sleep(10);
+			
 			gpioPin25.low();
 			gpioPin27.low();
 			gpioPin31.high();
 			gpioPin33.low();
+			
+			sleep(10);
 		
 			gpioPin25.low();
 			gpioPin27.low();
 			gpioPin31.high();
 			gpioPin33.high();
 			
+			sleep(10);
+			
 			gpioPin25.low();
 			gpioPin27.low();
 			gpioPin31.low();
 			gpioPin33.high();
+			
+			sleep(10);
 		
 			gpioPin25.high();
 			gpioPin27.low();
 			gpioPin31.low();
 			gpioPin33.high();
+			
+			sleep(10);
 		
 		}
 		
@@ -126,15 +166,13 @@ public class StringToBraille{
 	public static void execSequenceA(){
 		StringToBraille s = new StringToBraille();
 		
-		for(int i=0; i<200;i++){
+		for(int i=0; i<50;i++){
 				s.punchASequence();
 				try{
-				
 				Thread.sleep(10);
-				
 				}catch(InterruptedException e){
-					e.printStackTrace();
-					}
+				e.printStackTrace();
+				}
 			}
 			
 		s.getGpioProcessor().closePins();	
@@ -142,7 +180,7 @@ public class StringToBraille{
 		
 	public static void execSequenceB(){
 		StringToBraille s = new StringToBraille();
-		for(int i=0; i<200; i++){		
+		for(int i=0; i<50; i++){		
 				s.punchBSequence();
 				try{
 				Thread.sleep(10);
@@ -159,7 +197,9 @@ public class StringToBraille{
 		
 		
 		while(true){
-			execSequenceA();
+			System.out.println("Turning counter-clockwise\n");
+
+			execSequenceB();
 			
 			//s.resetSequence();
 			try{
@@ -170,7 +210,9 @@ public class StringToBraille{
 					e.printStackTrace();
 					}
 					
-			execSequenceB();
+			System.out.println("Turning clockwise\n");
+
+			execSequenceA();
 			//s.resetSequence();
 			try{
 				

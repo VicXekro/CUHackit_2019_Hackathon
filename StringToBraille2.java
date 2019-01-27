@@ -12,6 +12,7 @@ public class StringToBraille2{
 	long currentMillis;
 	int steps_left=4095;
 	long time;
+	long start = System.currentTimeMillis();
 	
 	public StringToBraille2(){
 		gpioProcessor = new GpioProcessor();
@@ -67,14 +68,65 @@ public class StringToBraille2{
 					gpioPin33.low();
 				break;
 				case 6:
+					gpioPin25.high();
+					gpioPin27.low();
+					gpioPin31.low();
+					gpioPin33.low();
 				break;
 				case 7:
+					gpioPin25.high();
+					gpioPin27.low();
+					gpioPin31.low();
+					gpioPin33.high();
 				break;
 				default:
+					gpioPin25.low();
+					gpioPin27.low();
+					gpioPin31.low();
+					gpioPin33.low();
 				break;
 				}
+				setDirection();
 			}
 		
 		}
+		
+		public void setDirection(){
+			if(direction==true)
+				steps++;
+			if(direction==false)
+				steps--;
+			if(steps>7)
+				steps=0;
+			if(steps<0)
+					steps=7;
+			}
+			
+		public void loop(){
+			while(true){
+				while(steps_left>0){
+					currentMillis = System.currentTimeMillis() - start;
+					if((currentMillis-lastime) >= 1000){
+						stepper(1);
+						time = time+(System.currentTimeMillis() - start)-lastime;
+						lastime = System.currentTimeMillis() - start;
+						steps_left--;
+						}
+					}
+				System.out.println("wait");
+				try{
+					Thread.sleep(50);
+				}catch(InterruptedException e){
+					e.printStackTrace();
+				}
+				direction =!direction;
+				steps_left = 4095;
+				}
+			}
+			
+		public static void main(String[]args){
+			StringToBraille2 stringBraille = new StringToBraille2();
+			stringBraille.loop();
+			}		
 	
 	}
